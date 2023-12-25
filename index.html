@@ -131,7 +131,57 @@
       // 👉 HINT: if you are not feeling confident with map and filter, solve the problem with for loops,
       //      and with the piece of mind of all tests passing, refactor to use map/filter
 
+      class AntFarm {
+  constructor(...antNames) {
+    this.ants = antNames.map(name => ({ name, health: 100 }));
+  }
+
+  work() {
+    if (this.ants.length === 0) {
+      return "No ants here. Did you work them to death?";
     }
+
+    let message = `${this.ants.length} ants starting work!`;
+    this.ants.forEach(ant => {
+      ant.health -= 20;
+      if (ant.health <= 0) {
+        this.removeDeadAnt(ant);
+      }
+    });
+
+    return message;
+  }
+
+  feed(antName) {
+    const ant = this.findAntByName(antName);
+    if (ant) {
+      ant.health += 15;
+      return "Yum!";
+    } else {
+      return `${antName} not found!`;
+    }
+  }
+
+  removeDeadAnt(deadAnt) {
+    this.ants = this.ants.filter(ant => ant !== deadAnt);
+  }
+
+  findAntByName(antName) {
+    return this.ants.find(ant => ant.name === antName);
+  }
+}
+
+// Example Usage:
+const antFarm = new AntFarm("Ant1", "Ant2", "Ant3");
+
+console.log(antFarm.work()); // Output: "3 ants starting work!"
+
+console.log(antFarm.feed("Ant2")); // Output: "Yum!"
+
+console.log(antFarm.work()); // Output: "2 ants starting work!"
+
+console.log(antFarm.feed("Ant4")); // Output: "Ant4 not found!"
+
 
     // 🧪 TESTS, do not make any changes below this line ===================
     // 🧪 TESTS, do not make any changes below this line ===================
